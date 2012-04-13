@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import ecologylab.generic.Debug;
+import ecologylab.generic.HashMapArrayList;
 import ecologylab.generic.StringTools;
 import ecologylab.semantics.metadata.MetadataClassDescriptor;
 import ecologylab.semantics.metadata.MetadataFieldDescriptor;
@@ -77,7 +78,7 @@ public class MetaMetadataDotNetTranslator extends DotNetTranslator implements Mm
 	{
 		MetadataClassDescriptor mdCD = (MetadataClassDescriptor) inputClass;
 		MetaMetadata mmd = mdCD.getDefiningMmd();
-		List<MetaMetadataGenericTypeVar> mmdGenericTypeVars = mmd.getMetaMetadataGenericTypeVars();
+		Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars = mmd.getGenericTypeVars();
 		MetaMetadataRepository repository = mmd.getRepository();
 		appendGenericTypeVarDefinitions(appendable, mmdGenericTypeVars, repository);
 	}
@@ -88,7 +89,7 @@ public class MetaMetadataDotNetTranslator extends DotNetTranslator implements Mm
 	{
 		MetadataClassDescriptor mdCD = (MetadataClassDescriptor) inputClass;
 		MetaMetadata mmd = mdCD.getDefiningMmd();
-		List<MetaMetadataGenericTypeVar> mmdGenericTypeVars = mmd.getMetaMetadataGenericTypeVars();
+		Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars = mmd.getGenericTypeVars();
 		MetaMetadataRepository repository = mmd.getRepository();
 		appendGenericTypeVarParameterizations(appendable, mmdGenericTypeVars, repository);
 		
@@ -115,25 +116,24 @@ public class MetaMetadataDotNetTranslator extends DotNetTranslator implements Mm
 		if (field instanceof MetaMetadataNestedField)
 		{
 			MetaMetadataNestedField nestedField = (MetaMetadataNestedField) field;
-			List<MetaMetadataGenericTypeVar> mmdGenericTypeVars = nestedField
-					.getMetaMetadataGenericTypeVars();
+			Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars = nestedField.getGenericTypeVars();
 			MetaMetadataRepository repository = nestedField.getRepository();
 			appendGenericTypeVarParameterizations(appendable, mmdGenericTypeVars, repository);
 		}
 	}
 
 	public void appendGenericTypeVarDefinitions(Appendable appendable,
-			List<MetaMetadataGenericTypeVar> mmdGenericTypeVars, MetaMetadataRepository repository)
+			Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars, MetaMetadataRepository repository)
 			throws IOException
 	{
-		if (mmdGenericTypeVars != null && mmdGenericTypeVars.size() > 0)
+		if (mmdGenericTypeVars != null)
 		{
 			boolean first = true;
 			for (MetaMetadataGenericTypeVar mmdGenericTypeVar : mmdGenericTypeVars)
 			{
 				String varName = mmdGenericTypeVar.getName();
-				String boundName = mmdGenericTypeVar.getBound();
-				String paramName = mmdGenericTypeVar.getParameter();
+				String boundName = mmdGenericTypeVar.getExtendsAttribute();
+				String paramName = mmdGenericTypeVar.getArg();
 				if (varName != null && boundName != null && paramName == null)
 				{
 					if (!StringTools.isUpperCase(varName))
@@ -156,17 +156,17 @@ public class MetaMetadataDotNetTranslator extends DotNetTranslator implements Mm
 	}
 
 	public void appendGenericTypeVarWhereClause(Appendable appendable,
-			List<MetaMetadataGenericTypeVar> mmdGenericTypeVars, MetaMetadataRepository repository)
+			Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars, MetaMetadataRepository repository)
 			throws IOException
 	{
-		if (mmdGenericTypeVars != null && mmdGenericTypeVars.size() > 0)
+		if (mmdGenericTypeVars != null)
 		{
 			boolean first = true;
 			for (MetaMetadataGenericTypeVar mmdGenericTypeVar : mmdGenericTypeVars)
 			{
 				String varName = mmdGenericTypeVar.getName();
-				String boundName = mmdGenericTypeVar.getBound();
-				String paramName = mmdGenericTypeVar.getParameter();
+				String boundName = mmdGenericTypeVar.getExtendsAttribute();
+				String paramName = mmdGenericTypeVar.getArg();
 				if (varName != null && boundName != null && paramName == null)
 				{
 					if (!StringTools.isUpperCase(varName))
@@ -192,17 +192,17 @@ public class MetaMetadataDotNetTranslator extends DotNetTranslator implements Mm
 
 	@Override
 	public void appendGenericTypeVarParameterizations(Appendable appendable,
-			List<MetaMetadataGenericTypeVar> mmdGenericTypeVars, MetaMetadataRepository repository)
+			Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars, MetaMetadataRepository repository)
 			throws IOException
 	{
-		if (mmdGenericTypeVars != null && mmdGenericTypeVars.size() > 0)
+		if (mmdGenericTypeVars != null)
 		{
 			boolean first = true;
 			for (MetaMetadataGenericTypeVar mmdGenericTypeVar : mmdGenericTypeVars)
 			{
 				String varName = mmdGenericTypeVar.getName();
-				String boundName = mmdGenericTypeVar.getBound();
-				String paramName = mmdGenericTypeVar.getParameter();
+				String boundName = mmdGenericTypeVar.getExtendsAttribute();
+				String paramName = mmdGenericTypeVar.getArg();
 				if (paramName != null && varName == null && boundName == null)
 				{
 					if (first)
