@@ -1,6 +1,7 @@
 package ecologylab.semantics.compiler;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import ecologylab.generic.Debug;
@@ -11,11 +12,11 @@ import ecologylab.semantics.metadata.builtins.MetadataBuiltinsTypesScope;
 import ecologylab.semantics.metametadata.MetaMetadata;
 import ecologylab.semantics.metametadata.MetaMetadataCompositeField;
 import ecologylab.semantics.metametadata.MetaMetadataField;
-import ecologylab.semantics.metametadata.MetaMetadataGenericTypeVar;
 import ecologylab.semantics.metametadata.MetaMetadataNestedField;
 import ecologylab.semantics.metametadata.MetaMetadataRepository;
 import ecologylab.semantics.metametadata.MetaMetadataScalarField;
 import ecologylab.semantics.metametadata.MmdCompilerService;
+import ecologylab.semantics.metametadata.MmdGenericTypeVar;
 import ecologylab.semantics.metametadata.exceptions.MetaMetadataException;
 import ecologylab.semantics.namesandnums.SemanticsNames;
 import ecologylab.serialization.ClassDescriptor;
@@ -76,9 +77,8 @@ public class MetaMetadataJavaTranslator extends JavaTranslator implements MmdCom
 	{
 		MetadataClassDescriptor mdInputClass = (MetadataClassDescriptor) inputClass;
 		MetaMetadata mmd = mdInputClass.getDefiningMmd();
-		Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars = mmd.getGenericTypeVars();
 		MetaMetadataRepository repository = mmd.getRepository();
-		appendGenericTypeVarDefinitions(appendable, mmdGenericTypeVars, repository);
+		appendGenericTypeVarDefinitions(appendable, mmd.getMetaMetadataGenericTypeVars(), repository);
 	}
 
 	@Override
@@ -87,9 +87,8 @@ public class MetaMetadataJavaTranslator extends JavaTranslator implements MmdCom
 	{
 		MetadataClassDescriptor mdInputClass = (MetadataClassDescriptor) inputClass;
 		MetaMetadata mmd = mdInputClass.getDefiningMmd();
-		Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars = mmd.getGenericTypeVars();
 		MetaMetadataRepository repository = mmd.getRepository();
-		appendGenericTypeVarParameterizations(appendable, mmdGenericTypeVars, repository);
+		appendGenericTypeVarParameterizations(appendable, mmd.getMetaMetadataGenericTypeVars(), repository);
 	}
 
 	@Override
@@ -111,29 +110,28 @@ public class MetaMetadataJavaTranslator extends JavaTranslator implements MmdCom
 		if (field instanceof MetaMetadataNestedField)
 		{
 			MetaMetadataNestedField nestedField = (MetaMetadataNestedField) field;
-			Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars = nestedField.getGenericTypeVars();
 			MetaMetadataRepository repository = nestedField.getRepository();
-			appendGenericTypeVarParameterizations(appendable, mmdGenericTypeVars, repository);
+			appendGenericTypeVarParameterizations(appendable, nestedField.getMetaMetadataGenericTypeVars(), repository);
 		}
 	}
 
 	public void appendGenericTypeVarDefinitions(Appendable appendable,
-			Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars, MetaMetadataRepository repository)
+			Collection<MmdGenericTypeVar> mmdGenericTypeVars, MetaMetadataRepository repository)
 			throws IOException
 	{
-		if (mmdGenericTypeVars != null)
+		if (mmdGenericTypeVars != null && mmdGenericTypeVars.size() > 0)
 		{
 			boolean first = true;
-			for (MetaMetadataGenericTypeVar mmdGenericTypeVar : mmdGenericTypeVars)
+			for (MmdGenericTypeVar mmdGenericTypeVar : mmdGenericTypeVars)
 			{
 				String varName = mmdGenericTypeVar.getName();
-				String boundName = mmdGenericTypeVar.getExtendsAttribute();
-				String paramName = mmdGenericTypeVar.getArg();
-				if (varName != null && boundName != null && paramName == null)
+				String extendsName = mmdGenericTypeVar.getExtendsAttribute();
+				String argName = mmdGenericTypeVar.getArg();
+				if (varName != null && extendsName != null && argName == null)
 				{
 					if (!StringTools.isUpperCase(varName))
 					{
-						Debug.warning(MetaMetadataGenericTypeVar.class, "We recommend capital letters for generic variable names!");
+						Debug.warning(MmdGenericTypeVar.class, "We recommend capital letters for generic variable names!");
 					}
 					if (first)
 					{
@@ -142,8 +140,8 @@ public class MetaMetadataJavaTranslator extends JavaTranslator implements MmdCom
 					}
 					else
 						appendable.append(", ");
-					appendable.append(varName).append(" extends ").append(MetaMetadataGenericTypeVar.getMdClassNameFromMmdOrNoChange(boundName, repository, this));
-					appendGenericTypeVarParameterizations(appendable, mmdGenericTypeVar.getGenericTypeVars(), repository);
+					appendable.append(varName).append(" extends ").append(MmdGenericTypeVar.getMdClassNameFromMmdOrNoChange(extendsName, repository, this));
+					appendGenericTypeVarParameterizations(appendable, mmdGenericTypeVar.getNestedGenericTypeVars(), repository);
 				}
 			}
 			if (!first)
@@ -153,18 +151,18 @@ public class MetaMetadataJavaTranslator extends JavaTranslator implements MmdCom
 
 	@Override
 	public void appendGenericTypeVarParameterizations(Appendable appendable,
-			Iterable<MetaMetadataGenericTypeVar> mmdGenericTypeVars, MetaMetadataRepository repository)
+			Collection<MmdGenericTypeVar> mmdGenericTypeVars, MetaMetadataRepository repository)
 			throws IOException
 	{
-		if (mmdGenericTypeVars != null)
+		if (mmdGenericTypeVars != null && mmdGenericTypeVars.size() > 0)
 		{
 			boolean first = true;
-			for (MetaMetadataGenericTypeVar mmdGenericTypeVar : mmdGenericTypeVars)
+			for (MmdGenericTypeVar mmdGenericTypeVar : mmdGenericTypeVars)
 			{
 				String varName = mmdGenericTypeVar.getName();
-				String boundName = mmdGenericTypeVar.getExtendsAttribute();
-				String paramName = mmdGenericTypeVar.getArg();
-				if (paramName != null && varName == null && boundName == null)
+				String extendsName = mmdGenericTypeVar.getExtendsAttribute();
+				String argName = mmdGenericTypeVar.getArg();
+				if (argName != null && extendsName == null)
 				{
 					if (first)
 					{
@@ -173,8 +171,8 @@ public class MetaMetadataJavaTranslator extends JavaTranslator implements MmdCom
 					}
 					else
 						appendable.append(", ");
-					appendable.append(MetaMetadataGenericTypeVar.getMdClassNameFromMmdOrNoChange(paramName, repository, this));
-					appendGenericTypeVarParameterizations(appendable, mmdGenericTypeVar.getGenericTypeVars(), repository);
+					appendable.append(MmdGenericTypeVar.getMdClassNameFromMmdOrNoChange(argName, repository, this));
+					appendGenericTypeVarParameterizations(appendable, mmdGenericTypeVar.getNestedGenericTypeVars(), repository);
 				}
 			}
 			if (!first)
