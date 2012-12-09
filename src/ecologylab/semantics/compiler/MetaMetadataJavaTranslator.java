@@ -21,7 +21,7 @@ import ecologylab.semantics.metametadata.exceptions.MetaMetadataException;
 import ecologylab.semantics.namesandnums.SemanticsNames;
 import ecologylab.serialization.ClassDescriptor;
 import ecologylab.serialization.FieldDescriptor;
-import ecologylab.serialization.FieldTypes;
+import ecologylab.serialization.FieldType;
 import ecologylab.serialization.MetaInformation;
 import ecologylab.serialization.annotations.simpl_descriptor_classes;
 import ecologylab.serialization.annotations.simpl_inherit;
@@ -243,7 +243,7 @@ public class MetaMetadataJavaTranslator extends JavaTranslator implements MmdCom
 	protected void appendGetters(FieldDescriptor fieldDescriptor, Appendable appendable, String suffix)
 			throws IOException
 	{
-		if (fieldDescriptor.getType() == FieldTypes.SCALAR)
+		if (fieldDescriptor.getType() == FieldType.SCALAR)
 		{
 			appendValueGetter(fieldDescriptor, appendable);
 			super.appendGetters(fieldDescriptor, appendable, SCALAR_GETTER_SETTER_SUFFIX);
@@ -287,7 +287,7 @@ public class MetaMetadataJavaTranslator extends JavaTranslator implements MmdCom
 	protected void appendSetters(FieldDescriptor fieldDescriptor, Appendable appendable, String suffix)
 			throws IOException
 	{
-		if (fieldDescriptor.getType() == FieldTypes.SCALAR)
+		if (fieldDescriptor.getType() == FieldType.SCALAR)
 		{
 			appendValueSetter(fieldDescriptor, appendable);
 			super.appendSetters(fieldDescriptor, appendable, SCALAR_GETTER_SETTER_SUFFIX);

@@ -31,7 +31,7 @@ import ecologylab.generic.HashMapArrayList;
 import ecologylab.semantics.html.utils.StringBuilderUtils;
 import ecologylab.serialization.ClassDescriptor;
 import ecologylab.serialization.FieldDescriptor;
-import ecologylab.serialization.FieldTypes;
+import ecologylab.serialization.FieldType;
 import ecologylab.serialization.GenericTypeVar;
 import ecologylab.serialization.MetaInformation;
 import ecologylab.serialization.MetaInformation.Argument;
@@ -569,8 +569,8 @@ public class JavaTranslator extends AbstractCodeTranslator implements JavaTransl
 
 		appendGettersHelper(fieldDescriptor, javaType, appendable, suffix);
 		
-		int fieldType = fieldDescriptor.getType();
-		if (fieldType == FieldTypes.COLLECTION_ELEMENT || fieldType == FieldTypes.COLLECTION_SCALAR)
+		FieldType fieldType = fieldDescriptor.getType();
+		if (fieldType == FieldType.COLLECTION_ELEMENT || fieldType == FieldType.COLLECTION_SCALAR)
 		{
 			ST listMethods = templateGroup.getInstanceOf("listMethods");
 			listMethods.add("fd", fieldDescriptor);
