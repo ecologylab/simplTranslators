@@ -17,7 +17,6 @@ import org.junit.Test;
 import ecologylab.generic.HashMapArrayList;
 import ecologylab.semantics.generated.library.RepositoryMetadataTranslationScope;
 import ecologylab.serialization.ClassDescriptor;
-import ecologylab.serialization.ElementState;
 import ecologylab.serialization.FieldDescriptor;
 import ecologylab.serialization.SIMPLTranslationException;
 import ecologylab.serialization.SimplTypesScope;

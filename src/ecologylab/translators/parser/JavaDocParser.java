@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import ecologylab.serialization.ClassDescriptor;
-import ecologylab.serialization.ElementState;
 import ecologylab.serialization.FieldDescriptor;
 import ecologylab.serialization.IJavaParser;
 import ecologylab.serialization.SimplTypesScope;

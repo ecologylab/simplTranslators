@@ -3,8 +3,6 @@ package ecologylab.translators.parser;
 import java.io.File;
 import java.io.IOException;
 
-import ecologylab.serialization.ElementState;
-
 /**
  * Class file to search for java source files. Using the Class type objects this class searches for
  * source files inside a root directory recursively. This class is being used by the JavaDocParser

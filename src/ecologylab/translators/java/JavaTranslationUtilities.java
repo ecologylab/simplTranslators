@@ -3,7 +3,6 @@ package ecologylab.translators.java;
 import java.util.HashMap;
 
 import ecologylab.serialization.FieldDescriptor;
-import ecologylab.serialization.annotations.Hint;
 
 public class JavaTranslationUtilities {
 

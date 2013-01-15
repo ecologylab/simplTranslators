@@ -43,7 +43,7 @@ import ecologylab.translators.hibernate.hbmxml.HibernateProperty;
  * @author quyin
  * 
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({ "rawtypes" })
 public class HibernateXmlMappingGenerator extends Debug
 {
 	

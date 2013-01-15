@@ -1,21 +1,12 @@
 package ecologylab.translators.sql.testing.ecologylabXmlTest;
 
 import java.io.File;
-import java.util.ArrayList;
-
 import ecologylab.net.ParsedURL;
-import ecologylab.serialization.ClassDescriptor;
 import ecologylab.serialization.ElementState;
-import ecologylab.serialization.FieldDescriptor;
-import ecologylab.serialization.SIMPLTranslationException;
 import ecologylab.serialization.annotations.DbHint;
 import ecologylab.serialization.annotations.simpl_composite;
 import ecologylab.serialization.annotations.simpl_db;
 import ecologylab.serialization.annotations.simpl_scalar;
-import ecologylab.serialization.library.feedburner.Feedburner;
-import ecologylab.serialization.library.media.Media;
-import ecologylab.serialization.library.media.Thumbnail;
-import ecologylab.serialization.library.rss.RssTranslations;
 
 /**
  * {@link ecologylab.serialization.ElementState ElementState} for the root element of the RSS parser.

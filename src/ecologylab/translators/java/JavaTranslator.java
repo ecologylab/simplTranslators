@@ -1,7 +1,5 @@
 package ecologylab.translators.java;
 
-import static ecologylab.translators.java.JavaTranslationConstants.SPACE;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

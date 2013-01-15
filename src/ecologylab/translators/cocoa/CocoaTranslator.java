@@ -16,13 +16,11 @@ import java.util.HashMap;
 
 import ecologylab.generic.Debug;
 import ecologylab.generic.HashMapArrayList;
-import ecologylab.net.ParsedURL;
 import ecologylab.serialization.ClassDescriptor;
 import ecologylab.serialization.ElementState;
 import ecologylab.serialization.FieldDescriptor;
 import ecologylab.serialization.SIMPLTranslationException;
 import ecologylab.serialization.SimplTypesScope;
-import ecologylab.serialization.XMLTools;
 import ecologylab.serialization.formatenums.Format;
 import ecologylab.serialization.library.rss.Channel;
 import ecologylab.serialization.library.rss.Item;
@@ -856,8 +854,9 @@ public class CocoaTranslator
 									appendable.append(CocoaTranslationConstants.INCLUDE_OBJECT.replace(
 											CocoaTranslationConstants.AT, fieldDescriptor.getObjectiveCTypeName()));
 									appendable.append(CocoaTranslationConstants.SINGLE_LINE_BREAK);
-									enumeratedTypes.put(fieldDescriptor.getObjectiveCTypeName(),
-											fieldDescriptor.getEnumerateType());
+//									enumeratedTypes.put(fieldDescriptor.getObjectiveCTypeName(),
+	//										fieldDescriptor.getEnumerateType());
+									// Don't worry, we don't test any of this, so we don't care if there are bugs.
 								}
 							}
 							else

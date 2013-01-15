@@ -1,14 +1,11 @@
 package ecologylab.semantics.compiler;
 
-import static ecologylab.translators.net.DotNetTranslationConstants.SPACE;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 import ecologylab.generic.Debug;
 import ecologylab.generic.StringTools;
-import ecologylab.semantics.html.utils.StringBuilderUtils;
 import ecologylab.semantics.metadata.MetadataClassDescriptor;
 import ecologylab.semantics.metadata.MetadataFieldDescriptor;
 import ecologylab.semantics.metametadata.MetaMetadata;
